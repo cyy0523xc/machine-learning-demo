@@ -4,10 +4,11 @@
 # Author: Alex
 # Created Time: 2017年01月07日 星期六 10时31分46秒
 
+import numpy as np
 import pandas as pd
-from sklearn import linear_model
 import matplotlib.pyplot as plt
-from sklearn.metrics import mean_squared_error
+from sklearn import linear_model
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 # 房屋size与price历史数据(csv文件)
 csv_file = './data01.csv'
@@ -33,13 +34,20 @@ array([[ 70],
 lr = linear_model.LinearRegression()
 
 # 拟合
-# 注意此处.reshape(-1, 1)，因为X是一维的！
 lr.fit(X, y)
 
-# MSE
+# 误差计算
+"""
+(1)平均绝对误差(Mean Absolute Error, MAE)
+(2)均方误差(Mean Squared Error, MSE)
+(3)均方根误差(Root Mean Squared Error, RMSE)
+"""
 y_pred = lr.predict(X=X)
-print("MSE：")
-print(mean_squared_error(y, y_pred))
+MAE = mean_absolute_error(y, y_pred)
+MSE = mean_squared_error(y, y_pred)
+RMSE = np.sqrt(MSE)
+print("MAE, MSE, RMSE：")
+print(MAE, MSE, RMSE)
 
 # 不难得到直线的斜率、截距
 a, b = lr.coef_, lr.intercept_
